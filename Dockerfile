@@ -9,17 +9,24 @@ RUN go get github.com/hashicorp/nomad && \
     git checkout $VERSION && \
     CGO_ENABLED=0 go build -o /bin/nomad
 
+
+FROM alpine as gosu
+RUN apk -U add curl
+RUN curl -L https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 -o /bin/gosu
+RUN chmod +x /bin/gosu
+
 FROM alpine
 MAINTAINER Julien BONACHERA <julien@bonachera.fr>
-
-ENTRYPOINT ["/usr/local/bin/nomad"]
+ENTRYPOINT ["/usr/local/bin/entrypoint"]
 CMD ["agent", "-config=/etc/nomad"]
 ENV CHECKPOINT_DISABLE=1
 RUN adduser -S nomad && \
+    addgroup nomad && \
     mkdir -p /var/lib/nomad && \
     touch /var/lib/nomad/.dockerkeep && \
     chown nomad: -R /var/lib/nomad/
 COPY --from=builder /bin/nomad /usr/local/bin/nomad
+COPY --from=gosu /bin/gosu /usr/local/bin/gosu
 VOLUME ["/var/lib/nomad"]
-USER nomad
 ADD nomad.hcl /etc/nomad/nomad.hcl
+ADD entrypoint /usr/local/bin/entrypoint

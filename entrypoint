@@ -1,0 +1,3 @@
+#!/bin/sh
+chown nomad: -R /var/lib/nomad
+gosu nomad:nomad /usr/local/bin/nomad $@
