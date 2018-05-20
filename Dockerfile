@@ -1,13 +1,14 @@
-FROM jbonachera/arch
+FROM alpine
 MAINTAINER Julien BONACHERA <julien@bonachera.fr>
 
 ENTRYPOINT ["/usr/local/bin/nomad"]
 CMD ["agent", "-config=/etc/nomad"]
-ENV VERSION=0.7.0
+ENV VERSION=0.8.3
 ENV CHECKPOINT_DISABLE=1
-RUN pacman -S --noconfirm --needed  unzip curl bind-tools
-RUN useradd -r nomad
-RUN curl -sL "https://releases.hashicorp.com/nomad/${VERSION}/nomad_${VERSION}_linux_amd64.zip" -o /opt/nomad.zip && \
+RUN apk -U add unzip curl
+RUN adduser -S nomad
+RUN mkdir /opt && \
+    curl -sL "https://releases.hashicorp.com/nomad/${VERSION}/nomad_${VERSION}_linux_amd64.zip" -o /opt/nomad.zip && \
     unzip /opt/nomad.zip -d /opt && \
     rm /opt/nomad.zip && \
     mv /opt/nomad /usr/local/bin && \
