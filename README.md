@@ -1,2 +1,2 @@
-Nomad running on alpine docker image
+# Nomad server running on alpine docker image
 

@@ -2,8 +2,7 @@ data_dir = "/var/lib/nomad"
 datacenter = "dc1"
 
 client {
-  enabled = true
-  network_speed = 800
+  enabled = false
 }
 
 server {
