@@ -1,0 +1,7 @@
+FROM jbonachera/nomad
+MAINTAINER Julien BONACHERA <julien@bonachera.fr>
+ENTRYPOINT ["/usr/local/bin/nomad"]
+CMD ["agent", "-config=/etc/nomad"]
+ENV CHECKPOINT_DISABLE=1
+VOLUME ["/var/lib/nomad"]
+ADD agent.hcl /etc/nomad/nomad.hcl
