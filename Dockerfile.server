@@ -7,8 +7,7 @@ RUN apk -U add git gcc musl-dev linux-headers && \
 RUN go get github.com/hashicorp/nomad && \
     cd $GOPATH/src/github.com/hashicorp/nomad && \
     git checkout $VERSION && \
-    CGO_ENABLED=1 go build -tags nonvidia -tags ui -o /bin/nomad
-
+    CGO_ENABLED=1 go build -tags 'nonvidia ui' -o /bin/nomad
 
 FROM alpine as gosu
 RUN apk -U add curl
