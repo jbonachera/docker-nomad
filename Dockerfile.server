@@ -1,6 +1,6 @@
 FROM golang:1.11-alpine as builder
 
-ENV VERSION=v0.9.3
+ENV VERSION=v0.9.5
 
 RUN apk -U add git gcc musl-dev linux-headers && \
     rm -rf /var/cache/apk/*
